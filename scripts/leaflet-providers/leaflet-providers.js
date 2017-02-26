@@ -117,7 +117,7 @@
 				DE: {
 					url: 'http://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png',
 					options: {
-						maxZoom: 18
+						maxZoom: 25
 					}
 				},
 				France: {
