@@ -166,8 +166,8 @@ form {
   padding: 1vh 5vw;
   opacity: 0.9;
   border: 5px #ddd solid;
-  border-radius: 5px;
-  font-family: "futura", maxi;
+  border-radius: 10px;
+  font-family: "arial narrow", aerial;
 }
 
 #mobile-intro-popup p {
