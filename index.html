@@ -48,7 +48,23 @@
   <link rel="stylesheet" type="text/css" href="style.css">
   
   <!-- sheetsee -->
-  
+    <script type="text/javascript" src='js/jquery.js '></script>
+        <script type="text/javascript" src='js/tabletop1.3.4.js'></script>
+        <script type="text/javascript" src='js/sheetsee.js'></script>
+        <script type="text/javascript" src='js/leaflet.markercluster.js'></script>
+        <script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+        <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.32.1/mapbox-gl.js'></script>
+        <link rel="shortcut icon" href="https://raw.github.com/jlord/hack-spots/master/favico.png"/>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.32.1/mapbox-gl.css' rel='stylesheet' />
+        <link href='https://api.tiles.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+        <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic'>
+        <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700'>
+        <link media="screen" rel="stylesheet" type="text/css" href="css/style.css">
+        <link media="screen" rel="stylesheet" type="text/css" href="css/site.css">
+        <link rel="stylesheet" href="css/MarkerCluster.css" />
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
   
 
 </head>
@@ -66,12 +82,31 @@
     }).setView([-95.958405,-41.25184], 11); // default center is overridden by Google Sheet options and points, zoom is not overridden 
   </script>
   
-  <script type="text/javascript">
+ <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
             var gData
             var URL = "1whsDOpBdn4IR6BHggiUZwelpnseThSjAR9yFPFEStMA"
                 Tabletop.init({ key: URL, callback: showInfo, simpleSheet: true })
         })
+            // create geoJSON with coordinates and other
+            // useful bits from the original data
+            var optionsJSON = ["name", "address", "city", "rowNumber"]
+            var geoJSON = Sheetsee.createGeoJSON(gData, optionsJSON)
+            // create map, tilelayer (map background), markers and popups
+           L.mapbox.accessToken = 'pk.eyJ1Ijoic2hlbGQwNjExIiwiYSI6ImNpbjdvempkMDBmNTV0bWtzOHNpbmQ1bGsifQ.KK-SYSyL8hthLtb3SVLv4g';
+var map = L.map('map').setView([41.251799, -95.958462], 5);
+// Add tiles from Mapbox Style API (https://www.mapbox.com/developers/api/styles/)
+// Tiles are 512x512 pixels and are offset by 1 zoom level
+L.tileLayer(
+    'https://api.mapbox.com/styles/v1/sheld0611/ciyimt6dm00382smyek3ub7yl/tiles/256/{z}/{x}/{y}?access_token=' + L.mapbox.accessToken, {
+        tileSize: 512,
+        zoomOffset: -1,
+	maxZoom: 18,
+  	maxNativeZoom: 20,
+        attribution: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+	  
+            var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map, "<h3>{{name}}</h3>", true)
   </script>
 
 
